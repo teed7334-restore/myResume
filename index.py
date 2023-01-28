@@ -1,12 +1,10 @@
-import openai_secret_manager
 import openai
 import streamlit as st
 
 # Get API key
-secrets = openai_secret_manager.get_secret("openai")
-openai.api_key = secrets["api_key"]
+openai.api_key = st.secrets["secret_key"]
 
-def generate_cover_letter(prompt, length):
+def generate_cover_letter(prompt, language, length):
     completions = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -31,23 +29,28 @@ def main():
     job_description = st.text_input("你希望的工作內容︰", "")
     company_name = st.text_input("你希望投遞的公司名︰", "")
     skills = st.text_input("你的技能︰", "")
-    work_experience = st.text_input("你的技能︰", "")
-    length = st.slider("你希望的履歷的文字長度︰", 100, 1000, 500)
+    work_experience = st.text_input("你的年資︰", "")
+    project_info = st.text_area("您過去經歷的專案內容︰", "")
+    length = st.slider("你希望的履歷的文字長度(中文建議拉長一點)︰", 100, 3000, 500)
     language = st.selectbox("你希望的履歷語系:", ["中文", "英文"])
     tone = st.selectbox("你希望的履歷風格:", ["專業", "友善"])
 
+    switch = {"中文": "zh_tw", "英文": "en"}
+    lang = switch.get(language, "中文")
+
     if st.button("建立"):
-        prompt = (f"Please generate a {tone.lower()} cover letter for a job application as a {job_title} at {company_name}. Use my name, {name}, in the letter.\n"
-          f"Include the following information in the letter: \n"
-          f"Gender: {gender} \n"
-          f"Email: {email} \n"
-          f"Phone number: {phone} \n"
-          f"Job description: {job_description} \n"
-          f"Skills: {skills} \n"
-          f"Years of experience: {work_experience} \n"
-          f"Resume language: {language}\n")
-        cover_letter = generate_cover_letter(prompt, length)
-        st.success("Cover letter generated!")
+        prompt = (f"Please generate a {tone.lower()} cover letter for a job application as a {job_title} at {company_name}. Use my name, {name}, in the resume.\n"
+            f"Include the following information in the resume: \n"
+            f"Gender: {gender} \n"
+            f"Email: {email} \n"
+            f"Phone number: {phone} \n"
+            f"Job description: {job_description} \n"
+            f"Skills: {skills} \n"
+            f"Years of experience: {work_experience} \n"
+            f"Project information: {project_info}\n"
+            f"(language:{lang})")
+        cover_letter = generate_cover_letter(prompt, lang, length)
+        st.success("新增完成!")
         st.write("---")
         st.write(cover_letter)
 
