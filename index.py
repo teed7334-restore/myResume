@@ -34,15 +34,18 @@ def main():
     length = st.slider("你希望的履歷的文字長度(中文建議拉長一點)︰", 100, 3000, 500)
     language = st.selectbox("你希望的履歷語系:", ["中文", "英文"])
     tone = st.selectbox("你希望的履歷風格:", ["專業", "友善"])
+    style = st.selectbox("你希望的履歷樣式", ["簡歷", "一般"])
 
     lang_switch = {"中文": "zh_tw", "英文": "en"}
     lang = lang_switch.get(language, "中文")
     tone_switch = {"專業": "professional & concise & eye-catching", "友善": "friendly & neat & eye-catching"}
     t = tone_switch.get(tone, '專業')
+    style_switch = {"簡歷": "letter", "一般": "resume"}
+    s = style_switch.get(style, "簡歷")
 
     if st.button("建立"):
-        prompt = (f"Please generate a {t.lower()} cover letter for a job application as a {job_title} at {company_name}. Use my name, {name}, in the letter. <br/>\n"
-            f"Include the following information in the letter: <br/>\n"
+        prompt = (f"Please generate a {t.lower()} cover {s} for a job application as a {job_title} at {company_name}. Use my name, {name}, in the {s}. <br/>\n"
+            f"Include the following information in the {s}: <br/>\n"
             f"Gender: {gender} <br />\n"
             f"Email: {email} <br />\n"
             f"Phone number: {phone} <br />\n"
