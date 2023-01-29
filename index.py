@@ -4,7 +4,7 @@ import streamlit as st
 # Get API key
 openai.api_key = st.secrets["secret_key"]
 
-def generate_cover_letter(prompt, language, length):
+def generate_cover_letter(prompt, length):
     completions = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -55,7 +55,7 @@ def main():
             f"Project information: <br />\n"
             f"Please format the following information as a list with bullet points and line breaks, and add some highlights of industry know-how from each project: {project_info} <br />\n"
             f"(language:{lang})")
-        cover_letter = generate_cover_letter(prompt, lang, length)
+        cover_letter = generate_cover_letter(prompt, length)
         st.success("新增完成!")
         st.write("---")
         st.write(cover_letter)
