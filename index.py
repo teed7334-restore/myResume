@@ -29,7 +29,7 @@ def main():
     job_description = st.text_input("你希望的工作內容︰", "")
     company_name = st.text_input("你希望投遞的公司名︰", "")
     skills = st.text_input("你的技能︰", "")
-    work_experience = st.text_input("你的年資︰", "")
+    work_experience = st.number_input("你的年資︰", 0, 60)
     project_info = st.text_area("您過去經歷的專案內容︰", "")
     length = st.slider("你希望的履歷的文字長度(中文建議拉長一點)︰", 100, 3000, 500)
     language = st.selectbox("你希望的履歷語系:", ["中文", "英文"])
