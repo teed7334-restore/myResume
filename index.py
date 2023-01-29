@@ -22,7 +22,7 @@ def main():
     st.title("建立我的履歷")
 
     name = st.text_input("請輸入你的姓名︰", "")
-    gender = st.text_input("請輸入你的性別︰", "")
+    gender = st.selectbox("請輸入你的性別︰", ["男", "女", "不公開"])
     email = st.text_input("請輸入你的信箱︰", "")
     phone = st.text_input("請輸入你的聯絡電話︰", "")
     job_title = st.text_input("你希望投遞的職位︰", "")
@@ -35,19 +35,22 @@ def main():
     language = st.selectbox("你希望的履歷語系:", ["中文", "英文"])
     tone = st.selectbox("你希望的履歷風格:", ["專業", "友善"])
 
-    switch = {"中文": "zh_tw", "英文": "en"}
-    lang = switch.get(language, "中文")
+    lang_switch = {"中文": "zh_tw", "英文": "en"}
+    lang = lang_switch.get(language, "中文")
+    tone_switch = {"專業": "professional & concise & eye-catching", "友善": "friendly & neat & eye-catching"}
+    t = tone_switch.get(tone, '專業')
 
     if st.button("建立"):
-        prompt = (f"Please generate a {tone.lower()} cover letter for a job application as a {job_title} at {company_name}. Use my name, {name}, in the resume.\n"
-            f"Include the following information in the resume: \n"
-            f"Gender: {gender} \n"
-            f"Email: {email} \n"
-            f"Phone number: {phone} \n"
-            f"Job description: {job_description} \n"
-            f"Skills: {skills} \n"
-            f"Years of experience: {work_experience} \n"
-            f"Project information: {project_info}\n"
+        prompt = (f"Please generate a {t.lower()} cover letter for a job application as a {job_title} at {company_name}. Use my name, {name}, in the letter. <br/>\n"
+            f"Include the following information in the letter: <br/>\n"
+            f"Gender: {gender} <br />\n"
+            f"Email: {email} <br />\n"
+            f"Phone number: {phone} <br />\n"
+            f"Job description: {job_description} <br />\n"
+            f"Skills: {skills} <br />\n"
+            f"Years of experience: {work_experience} <br />\n"
+            f"Project information: <br />\n"
+            f"Please format the following information as a list with bullet points and line breaks, and add some highlights of industry know-how from each project: {project_info} <br />\n"
             f"(language:{lang})")
         cover_letter = generate_cover_letter(prompt, lang, length)
         st.success("新增完成!")

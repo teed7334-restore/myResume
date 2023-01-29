@@ -4,3 +4,4 @@ Scripts/
 share/
 etc/
 .streamlit/
+pyvenv.cfg
